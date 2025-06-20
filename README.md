@@ -66,6 +66,7 @@ This setup deploys a foundational AWS infrastructure to host two distinct web ap
 
 # File Structure
 ---
+```
 .
 ├── main.tf                 # Root module: orchestrates other modules, passes global variables.
 ├── variables.tf            # Root module: global input variables for the entire stack.
@@ -92,7 +93,8 @@ This setup deploys a foundational AWS infrastructure to host two distinct web ap
 │       ├── main.tf
 │       ├── variables.tf
 │       └── outputs.tf
-
+```
+# The file structure is organized into modules, each responsible for a specific component of the infrastructure.
 ---
 ### 📋 Prerequisites
 
