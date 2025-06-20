@@ -37,35 +37,35 @@ This setup deploys a foundational AWS infrastructure to host two distinct web ap
 * **Security Groups:** Finely tuned security groups to control network access between the ALB, ECS services, and the RDS database.
 * **IAM Roles:** Necessary IAM roles for ECS task execution and task-specific permissions.
 
-```mermaid
-graph TD
-    User -- HTTP (Port 80) --> ALB
-    ALB -- Path-based Routing --> AnalyticalAppTG
-    ALB -- Path-based Routing --> ReportingAppTG
-    AnalyticalAppTG --> AnalyticalAppService[ECS Fargate Service: Analytical App]
-    ReportingAppTG --> ReportingAppService[ECS Fargate Service: Reporting App]
-    AnalyticalAppService -- Read Secret ARN --> AWSSecretsManager[AWS Secrets Manager: DB Creds]
-    AnalyticalAppService -- DB Connection (Port 5432) --> RDS[RDS PostgreSQL Instance]
-    ReportingAppService -- Read Secret ARN --> AWSSecretsManager
-    ReportingAppService -- DB Connection (Port 5432) --> RDS
-    AnalyticalAppService -- Logs --> CloudWatchLogs[CloudWatch Logs: AnalyticalApp]
-    ReportingAppService -- Logs --> CloudWatchLogs[CloudWatch Logs: ReportingApp]
-    SubGraph VPC
-        VPC --> PublicSubnets
-        VPC --> PrivateSubnets
-        PublicSubnets -- EIP --> NATGateway
-        ALB --> PublicSubnets
-        AnalyticalAppService --> PrivateSubnets
-        ReportingAppService --> PrivateSubnets
-        RDS --> PrivateSubnets
-    end
-
-```
-![Flowchart](image/diagram-2025-06.png)
-
 # Architecture Diagram
 # The architecture diagram is a visual representation of the infrastructure components and their relationships.
 # It is a simplified representation of the actual infrastructure setup.
+![Flowchart](image/diagram-2025-06.png)
+
+
+
+# The diagram shows the following components and their relationships:
+ - VPC (Virtual Private Cloud)
+ - Subnets (public and private)
+ - Internet Gateway (IGW)
+ - NAT Gateway (1 per AZ, but configured for 1 in dev)
+ - Route Tables and associations
+ - ECS Cluster
+ - RDS PostgreSQL instance
+ - Secrets Manager
+ - ALB (Application Load Balancer)
+ - ECS Fargate Services (Analytical App and Reporting App)
+ - ECR (Elastic Container Registry)
+ - CloudWatch Log Groups
+ - Security Groups
+ - IAM Roles
+# The diagram illustrates the flow of traffic from the Internet to the ECS services through the ALB and the use of security groups and IAM roles to control access to the resources.
+# The diagram also shows the use of Secrets Manager to store database credentials securely.
+# The diagram is a simplified representation of the actual infrastructure setup and is intended to provide a high-level overview of the architecture.
+
+
+# File Structure
+---
 .
 ├── main.tf                 # Root module: orchestrates other modules, passes global variables.
 ├── variables.tf            # Root module: global input variables for the entire stack.
@@ -93,7 +93,7 @@ graph TD
 │       ├── variables.tf
 │       └── outputs.tf
 
-
+---
 ### 📋 Prerequisites
 
 Before you can deploy this infrastructure, ensure the following tools and accounts are set up:
